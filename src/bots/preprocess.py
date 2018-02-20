@@ -195,8 +195,8 @@ def mailbag(ta_from, endstatus, frommessagetype, **argv):
                     raise botslib.InMessageError(_('[M60]: Found no segment terminator for IEA trailer at position %(pos)s.'), {
                                                  'pos': foundtrailer2.start()})
                 else:
-                    raise botslib.InMessageError(
-                        _('[M54]: Found no valid IEA trailer for the ISA header at position %(pos)s.'), {'pos': headpos})
+                    # ALLOY: we receive some files without an IEA trailer at all. Assume the entire file is a single interchange
+                    foundtrailer = re.search('$')
         elif found.group('edifact'):
             editype = 'edifact'
             headpos = startpos + found.start('edifact')
